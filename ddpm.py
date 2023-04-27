@@ -95,8 +95,8 @@ def train(args):
             pbar.set_postfix(MSE=loss.item())
             logger.add_scalar("MSE", loss.item(), global_step=epoch * l + i)
 
-        sampled_images = diffusion.sample(model, n=4)
-        save_images(sampled_images, os.path.join("results", args.run_name, f"{epoch}.jpg"), nrow=2)
+        sampled_images = diffusion.sample(model, n=16)
+        save_images(sampled_images, os.path.join("results", args.run_name, f"{epoch}.jpg"), nrow=4)
         torch.save(model.state_dict(), os.path.join("models", args.run_name, f"ckpt.pt"))
 
 
@@ -104,14 +104,14 @@ def launch():
     import argparse
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
-    args.run_name = "DDPM_Uncondtional"
-    args.epochs = 500
+    args.run_name = "DDPM_Uncondtional_FFHQ"
+    args.epochs = 300
     args.batch_size = 16
     args.image_size = 64
-    args.dataset_path = r"/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/datasets/landscape"
+    args.dataset_path = r"/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/datasets/FFHQ"
     args.device = "cuda"
     args.lr = 3e-4
-#    train(args)
+    train(args)
 
 if __name__ == '__main__':
     launch()
@@ -147,16 +147,16 @@ def sample_images(dataset_path, output_path, grid_size=8):
 if __name__ == '__main__':
     launch()
     
-    dataset_path = '/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/datasets/landscape'
+    dataset_path = '/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/datasets/FFHQ'
     output_path = '/home/work/DDPM_mksong/Diffusion-Models-pytorch-main'
-    sample_images(dataset_path, output_path, grid_size=8)
+    sample_images(dataset_path, output_path, grid_size=4)
     
     device = "cuda"
     model = UNet().to(device)
-    ckpt = torch.load("/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/models/DDPM_Uncondtional/ckpt.pt")
+    ckpt = torch.load("/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/models/DDPM_Uncondtional_FFHQ/ckpt.pt")
     model.load_state_dict(ckpt)
     diffusion = Diffusion(img_size=64, device=device)
-    x = diffusion.sample(model, 36)
+    x = diffusion.sample(model, 16)   # 16장 샘플링
     print(x.shape)
 
     x_grid = make_grid(x, nrow=6, pad_value=1)

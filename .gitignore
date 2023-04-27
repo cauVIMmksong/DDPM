@@ -2,3 +2,6 @@ datasets/*/
 datasets/**/*.jpg
 datasets/**/*.jpeg
 datasets/**/*.png
+models/*/
+models/**/
+models/**/*.pt
