@@ -113,12 +113,12 @@ def launch():
     import argparse
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
-    args.run_name = "DDPM_conditional"
+    args.run_name = "DDPM_conditional_CPS"
     args.epochs = 300
-    args.batch_size = 14
+    args.batch_size = 16
     args.image_size = 64
-    args.num_classes = 10
-    args.dataset_path = r"/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/datasets/CIFAR-10/train"
+    args.num_classes = 4
+    args.dataset_path = r"/home/work/DDPM_mksong/Diffusion-Models-pytorch-main/datasets/CPS/Training/Dog/Cataract"
     args.device = "cuda"
     args.lr = 3e-4
     train(args)
